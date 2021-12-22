@@ -1,0 +1,64 @@
+
+*{
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cont{
+  width: 80%
+}
+
+.sub-cont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+textarea{
+  width: 80%;
+  min-height: 25vh;
+}
+
+.tite-input{
+  width: 40%;
+}
+
+.search-cont{
+  display: flex;
+  justify-content: center;
+  margin: 10px 10px
+}
+
+.search-cont h3{
+  margin: 2px
+}
+
+.search-cont input{
+  width: 50%;
+}
+
+.code-cont{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows: auto;
+}
+
+.code{
+  width: 50%
+}
+
+.prettyprint{
+  color:white;
+  margin: 0
+}
+
