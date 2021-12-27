@@ -5,8 +5,17 @@ let textArea = document.querySelector('textarea').addEventListener('input', getT
 
 let submitBtn = document.querySelector('.btn').addEventListener('click', submitButton);
 
+let a = document.querySelector('select');
+
+a.addEventListener('change', function() {
+  lang = this.value
+});
+
+
+
 // values
 let titleInputValue,
+    lang,
     textAreaValaue;
 
 
@@ -22,35 +31,44 @@ function getTextAreaValue(){
 
 
 function submitButton(){
-  let h3 = document.createElement('h3'), 
-      pre = document.createElement('pre'), 
-      button1 = document.createElement('button'), 
-      button2 = document.createElement('button'), 
-      code = document.createElement('div'),
-      codeCont = document.querySelector('.code-cont');
-      
-      code.className = 'code'
-      h3.className = 'code-title';
-      h3.innerHTML = titleInputValue;
-      pre.className = 'prettyprint prettyprinted';
-      pre.innerHTML = textAreaValaue;
-      button1.className = 'edit-btn'
-      button2.className = 'delete-btn'
+let codeCont = document.querySelector(".code-cont");
 
-      codeCont.appendChild(code);
-
-  let tags = [h3,pre,button1, button2];
+let condeInner = document.createElement('div');
+condeInner.className = 'code-inner';
+codeCont.appendChild(condeInner)
 
 
-
-  tags.forEach(e => {
-    code.appendChild(e);
-  })
-
+let h3 = document.createElement("h3");
+h3.className = 'code-title'
+h3.innerText = titleInputValue;
 
 
-  console.log(h3,pre,button1, button2, code, codeCont)
-  console.log(tags)
+let btn1 = document.createElement("button");
+btn1.className = 'edit-btn'
+btn1.innerText = 'Edit';
+let btn2 = document.createElement("button");
+btn2.className = 'delete-btn'
+btn2.innerText = 'Delete';
 
+let pre = document.createElement("pre");
+let code = document.createElement("code");
+pre.appendChild(code);
 
+code.className = `snippet language-${lang}`;
+code.innerText = textAreaValaue;
+condeInner.appendChild(pre);
+
+condeInner.appendChild(h3);
+condeInner.appendChild(btn1);
+condeInner.appendChild(btn2);
+
+/*
+This is required, otherwise the elements are shown in one line.
+Taken from: https://github.com/PrismJS/prism/issues/1764#issuecomment-467677558
+*/
+Prism.hooks.add("before-sanity-check", function (env) {
+env.code = env.element.innerText;
+console.log(env.code)
+});
+Prism.highlightElement(code);
 }
