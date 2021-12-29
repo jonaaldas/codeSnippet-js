@@ -29,8 +29,8 @@ textarea{
   min-height: 25vh;
 }
 
-.tite-input{
-  width: 40%;
+#tite-input{
+  width: 40%; 
 }
 
 .search-cont{
@@ -49,7 +49,7 @@ textarea{
 
 .code-cont{
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(1,1fr);
   grid-auto-rows: minmax(100px,auto);
   justify-items: center;
   width: 100%;
@@ -61,4 +61,16 @@ textarea{
 
 pre{
   max-height: 200px;
+}
+
+#select{
+  width: 30%
+}
+
+/* media */
+
+@media (min-width: 800px) {
+  .code-cont{
+    grid-template-columns: repeat(2,1fr);
+  }
 }
