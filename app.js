@@ -12,8 +12,6 @@ a.addEventListener('change', function() {
   lang = this.value;
 });
 
-//buttons
-
 
 
 // values
@@ -21,9 +19,10 @@ let titleInputValue,
     textAreaValaue;
     let lang = 'javascript';
 
-    let codeCont,condeInner,h3,btn1,btn2,pre,code;
+//Dom elemenets created
+let codeCont,condeInner,h3,btn1,btn2,pre,code;
 
-
+// Clears all the data from the textarea
 function clearButton(){
   document.querySelector('.tite-input').value = '';
   document.querySelector('textarea').value = '';
@@ -31,16 +30,19 @@ function clearButton(){
   textAreaValaue = null;
 }
 
+// get the value from the title form 
 function getTitleInputValue(){
   titleInputValue = this.value;
   console.log(typeof titleInputValue)
 }
 
+// get the value from the textArea
 function getTextAreaValue(){
   textAreaValaue = this.value;
 }
 
 
+// checks if values of textarea and title 
 function submitButton(){
   if(typeof titleInputValue != 'string' && typeof textAreaValaue != 'string'){
     alert('Do not leave fields empty')
@@ -49,10 +51,13 @@ function submitButton(){
   } 
 }
 
-function deleteCode(){
+//deletes the code block 
+function deleteCodeBlock(){
   this.parentNode.remove()
 }
 
+
+// Creates dom elements and addes them to the DOM and Prsismjs parese them 
 function parseHtml(){
   console.log(titleInputValue,textAreaValaue)
   codeCont = document.querySelector(".code-cont");
@@ -70,7 +75,7 @@ function parseHtml(){
   btn1.innerText = 'Edit';
   btn2 = document.createElement("button");
   btn2.className = 'delete-btn btn btn-success';
-  btn2.onclick = deleteCode;
+  btn2.onclick = deleteCodeBlock;
   btn2.innerText = 'Delete';
   
   pre = document.createElement("pre");
