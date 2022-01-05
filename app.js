@@ -18,7 +18,7 @@ dropDown.addEventListener('change', function() {
 let titleInputValue,
     textAreaValaue;
     let lang = 'javascript';
-    let idTracker = 0;
+let codeSnippets = [];
 
 //Dom elemenets created
 let codeCont,condeInner,h3,btn1,btn2,pre,code;
@@ -56,27 +56,27 @@ function submitButton(){
     alert('Do not leave fields empty')
   } else if(typeof titleInputValue === 'string' && typeof textAreaValaue === 'string'){
     parseHtml(titleInputValue,textAreaValaue);
+    let allData = document.querySelector('.code-cont').children;
+    console.log(allData)
+    // codeSnippets.push();
   } 
-  idTracker++
-  console.log(idTracker)
-
-  
 }
 
 //deletes the code block 
 function deleteCodeBlock(){
   this.parentNode.remove()
-  idTracker--;
+  // console.log(this.parentNode)
+  // console.log(codeSnippets)
 }
 
 // Creates dom elements and addes them to the DOM and Prsismjs parese them 
-function parseHtml(title, textArea){
+function parseHtml(title, textArea, ){
 
   codeCont = document.querySelector(".code-cont");
 
   condeInner = document.createElement('div');
   condeInner.className = `code-inner`;
-  condeInner.setAttribute(`data-value`, `${idTracker}`)
+  // condeInner.setAttribute(`data-value`, `${idIdentifier}`)
   codeCont.appendChild(condeInner)
   
   h3 = document.createElement("h3");
@@ -123,18 +123,18 @@ function editCodeBlock(){
   let btnSubmit = document.createElement('button');
   btnSubmit.className = 'btn-submit btn btn-success';
   btnSubmit.innerHTML = 'Submit';
-  // console.log(document.querySelector('.code-inner').getAttribute('data-value'))
+  
   
   
   btnSave.onclick = () => {
-   if(edit1 === undefined & edit2 === undefined){
+   if(edit1 === undefined && edit2 === undefined){
      alert('please change me ')
-   } else{
+   } else {
      document.querySelector('.code-inner').remove();
      document.querySelector('.btn-save').remove();
      document.querySelector('.buttons').appendChild(btnSubmit);
-     parseHtml(edit1,edit2);
      document.querySelector('.btn-submit').addEventListener('click', submitButton);
+     parseHtml(edit1,edit2);
     }
   }
 
