@@ -11,6 +11,7 @@ let dropDown = document.querySelector('select');
 dropDown.addEventListener('change', function() {
   lang = this.value;
 });
+// 
 
 
 
@@ -20,6 +21,7 @@ let titleInputValue,
     let lang = 'javascript';
     let dataValue = 0;
 let codeSnippets = [];
+let obj = {}
 
 //Dom elemenets created
 let codeCont,condeInner,h3,btn1,btn2,pre,code;
@@ -57,20 +59,29 @@ function submitButton(){
     alert('Do not leave fields empty')
   } else if(typeof titleInputValue === 'string' && typeof textAreaValaue === 'string'){
     dataValue++;
+    obj =   {
+      'ID': dataValue,
+      'codeTitle': titleInputValue,
+      'langauge': lang,
+      'textArea': textAreaValaue
+    }
     parseHtml(titleInputValue,textAreaValaue,dataValue);
-    //make an HTMLCollection of all of the data 
-    let allData = document.querySelector('.code-cont').children;
-    //speard it into the the array
-    codeSnippets = [...allData];
-    // console.log(codeSnippets)
+    codeSnippets.push(obj);
+    console.log(codeSnippets)
   } 
 }
 
 //deletes the code block 
 function deleteCodeBlock(){
-  this.parentNode.remove()
-  // console.log(this.parentNode)
-  // console.log(codeSnippets)
+  //removes from array
+  for(let i in codeSnippets){
+    if(codeSnippets[i].ID === parseInt(this.parentNode.getAttribute('data-value'))){
+        codeSnippets.splice(i,1);
+        break;
+      }
+    }
+    this.parentNode.remove();
+  console.log(codeSnippets)
 }
 
 // Creates dom elements and addes them to the DOM and Prsismjs parese them 
@@ -128,7 +139,6 @@ function editCodeBlock(){
   document.querySelector('textarea').addEventListener('input', function(){
       textArea = this.value;
     });
-    console.log(title)
 
   let btnSave = document.createElement('button');
   btnSave.className = 'btn-save btn btn-success';
@@ -147,9 +157,11 @@ function editCodeBlock(){
     if(title === undefined){
       this.parentNode.remove();
       this.parentNode.replaceWith(parseHtml(editTitleInputValue, textArea ,dataValue));
+      //If i change the body but not the title
     } else if (textArea === undefined){
       this.parentNode.remove();
       this.parentNode.replaceWith(parseHtml(title, editTextAreavalue ,dataValue));
+      //If i do not change
     } else {
       this.parentNode.remove();
       this.parentNode.replaceWith(parseHtml(title, textArea ,dataValue));
@@ -159,3 +171,25 @@ function editCodeBlock(){
     }//from else
   }
 }
+
+//  seach feature
+function findMach(titleToSearch, arr){
+    return  arr.filter( title => {
+      const regex = new RegExp(titleToSearch, 'gi');
+      return title.codeTitle.match(titleToSearch)
+    });
+}
+
+// searchfunction
+function displayMatches(){
+  const matchArray = findMach(this.value, codeSnippets);
+  const html = matchArray.map(title => {
+      const codeInner = document.querySelectorAll('.code-inner');
+      console.log(codeInner)
+  })
+}
+const searchInput = document.querySelector('.search-form');
+
+searchInput.addEventListener('change', displayMatches)
+searchInput.addEventListener('keyup', displayMatches)
+
