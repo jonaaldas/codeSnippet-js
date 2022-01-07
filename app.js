@@ -31,8 +31,8 @@ function clearButton(){
   document.querySelector('textarea').value = '';
 
 
-  editTextAreavalue = titleInputValue;
-  editTitleInputValue = textAreaValaue;
+  editTextAreavalue = textAreaValaue;
+  editTitleInputValue = titleInputValue;
 
   titleInputValue = null;
   textAreaValaue = null;
@@ -114,107 +114,48 @@ function parseHtml(title, textArea, idIdentifier){
     clearButton();
 }
 
-
-// edit code block
-// function editCodeBlock(){
-
-//   let edit1, edit2;
-
-//   let btnSave = document.createElement('button');
-//   btnSave.className = 'btn-save btn btn-success';
-//   btnSave.innerHTML = 'Save';
-
-//   let btnSubmit = document.createElement('button');
-//   btnSubmit.className = 'btn-submit btn btn-success';
-//   btnSubmit.innerHTML = 'Submit';
-  
-  
-  
-//   // console.log(this.parentNode.getAttribute('data-value'));
-//   btnSave.onclick = () => {
-//    if(edit1 === undefined && edit2 === undefined){
-//      alert('please change me ')
-//    } else {
-//       // for(let i in codeSnippets){
-//         // if (codeSnippets[i].getAttribute('data-value') === this.parentNode.getAttribute('data-value')){
-//             console.log(this.parentNode)
-//       // }
-//     //  document.querySelector('.btn-save').remove();
-//     //  document.querySelector('.buttons').appendChild(btnSubmit);
-//     //  document.querySelector('.btn-submit').addEventListener('click', submitButton);
-//     //  parseHtml(edit1,edit2,dataValue);
-//     }
-//   }
-
-//   document.querySelector('.btn-submit').remove();
-//   document.querySelector('.buttons').appendChild(btnSave);
-
-
-//   document.querySelector('.tite-input').value = editTextAreavalue;
-//   document.querySelector('textarea').value = editTitleInputValue;
-//   //
-//   document.querySelector('.tite-input').addEventListener('input', function(){
-//     edit1 = this.value;
-//   });
-
-//   document.querySelector('textarea').addEventListener('input', function(){
-//     edit2 = this.value;
-//   });
-// }
-
-
-
 //new edit block 
-
 function editCodeBlock(){
-  let edit1, edit2;
+  let title, textArea;
 
-  document.querySelector('.tite-input').value = editTextAreavalue;
-  document.querySelector('textarea').value = editTitleInputValue;
-    
+  document.querySelector('.tite-input').value = editTitleInputValue;
+  document.querySelector('textarea').value = editTextAreavalue;
+
   document.querySelector('.tite-input').addEventListener('input', function(){
-      edit1 = this.value;
+      title = this.value;
     });
   
   document.querySelector('textarea').addEventListener('input', function(){
-      edit2 = this.value;
+      textArea = this.value;
     });
-
+    console.log(title)
 
   let btnSave = document.createElement('button');
   btnSave.className = 'btn-save btn btn-success';
   btnSave.innerHTML = 'Save';
 
-  // let btnSubmit = document.createElement('button');
-  // btnSubmit.className = 'btn-submit btn btn-success';
-  // btnSubmit.innerHTML = 'Submit';
-
-  document.querySelector('.btn-submit').remove();
+  
   document.querySelector('.buttons').appendChild(btnSave);
 
-
-
   // save button
-
-  // console.log(this.parentNode.getAttribute('data-value'));
   btnSave.onclick = () => {
-  if(edit1 === undefined && edit2 === undefined){
-    alert('please change me ')
+  if(title === undefined && textArea === undefined){
+    this.parentNode.remove();
+    this.parentNode.replaceWith(parseHtml(editTitleInputValue, editTextAreavalue ,dataValue));
   } else {
-      //  this.parentNode.replaceWith(parseHtml(edit1, edit2))
+    //If i change the Title but not the Body
+    if(title === undefined){
       this.parentNode.remove();
-      this.parentNode.replaceWith(parseHtml(edit1, edit2))
+      this.parentNode.replaceWith(parseHtml(editTitleInputValue, textArea ,dataValue));
+    } else if (textArea === undefined){
+      this.parentNode.remove();
+      this.parentNode.replaceWith(parseHtml(title, editTextAreavalue ,dataValue));
+    } else {
+      this.parentNode.remove();
+      this.parentNode.replaceWith(parseHtml(title, textArea ,dataValue));
     }
+    //remove the save button
+    document.querySelector('.btn-save').remove();
+    }//from else
   }
 }
-
-
-
-// for(let i in codeSnippets){
-  // if (codeSnippets[i].getAttribute('data-value') === this.parentNode.getAttribute('data-value')){
-      // console.log(this.parentNode)
-// }
-//  document.querySelector('.btn-save').remove();
-//  document.querySelector('.buttons').appendChild(btnSubmit);
-//  document.querySelector('.btn-submit').addEventListener('click', submitButton);
-//  parseHtml(edit1,edit2,dataValue);
