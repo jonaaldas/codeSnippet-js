@@ -11,9 +11,6 @@ let dropDown = document.querySelector('select');
 dropDown.addEventListener('change', function() {
   lang = this.value;
 });
-// 
-
-
 
 // values
 let titleInputValue,
@@ -31,15 +28,6 @@ let editTextAreavalue, editTitleInputValue;
 function clearButton(){
   document.querySelector('.tite-input').value = '';
   document.querySelector('textarea').value = '';
-
-
-  editTextAreavalue = textAreaValaue;
-  editTitleInputValue = titleInputValue;
-
-  titleInputValue = null;
-  textAreaValaue = null;
-
-  // mental note, delete save button and put back submit button
 }
 
 // get the value from the title form 
@@ -67,7 +55,6 @@ function submitButton(){
     }
     parseHtml(titleInputValue,textAreaValaue,dataValue);
     codeSnippets.push(obj);
-    console.log(codeSnippets)
   } 
 }
 
@@ -127,17 +114,27 @@ function parseHtml(title, textArea, idIdentifier){
 
 //new edit block 
 function editCodeBlock(){
-  let title, textArea;
+  let newTitle, newTextArea;
+  let title = this.parentNode.querySelector('.code-title').innerText;
+  let textArea = textAreaValaue;
 
-  document.querySelector('.tite-input').value = editTitleInputValue;
-  document.querySelector('textarea').value = editTextAreavalue;
+  document.querySelector('.tite-input').value = title;
+  document.querySelector('textarea').value = textArea;
 
   document.querySelector('.tite-input').addEventListener('input', function(){
-      title = this.value;
+      newTitle = this.value;
     });
   
   document.querySelector('textarea').addEventListener('input', function(){
-      textArea = this.value;
+      newTextArea = this.value;
+    });
+
+
+    let text = '';
+    let text1;
+    let allTokens = this.parentNode.querySelectorAll('.token');
+    allTokens.forEach(element => {
+      text1 = text.concat(element.innerText)
     });
 
   let btnSave = document.createElement('button');
@@ -149,47 +146,57 @@ function editCodeBlock(){
 
   // save button
   btnSave.onclick = () => {
-  if(title === undefined && textArea === undefined){
+  if(newTitle === undefined && newTextArea === undefined){
     this.parentNode.remove();
-    this.parentNode.replaceWith(parseHtml(editTitleInputValue, editTextAreavalue ,dataValue));
+    this.parentNode.replaceWith(this.parentNode.replaceWith(parseHtml(title, textArea ,dataValue)));
+    delelteSaveBtn()
   } else {
     //If i change the Title but not the Body
-    if(title === undefined){
+    if(newTitle === undefined){
       this.parentNode.remove();
-      this.parentNode.replaceWith(parseHtml(editTitleInputValue, textArea ,dataValue));
+      this.parentNode.replaceWith(parseHtml(title, newTextArea ,dataValue));
+      delelteSaveBtn()
       //If i change the body but not the title
-    } else if (textArea === undefined){
+    } else if (newTextArea === undefined){
       this.parentNode.remove();
-      this.parentNode.replaceWith(parseHtml(title, editTextAreavalue ,dataValue));
+      this.parentNode.replaceWith(parseHtml(newTitle, textArea ,dataValue));
+      delelteSaveBtn()
       //If i do not change
-    } else {
-      this.parentNode.remove();
-      this.parentNode.replaceWith(parseHtml(title, textArea ,dataValue));
-    }
+    } 
     //remove the save button
-    document.querySelector('.btn-save').remove();
+    // document.querySelector('.btn-save').remove();
     }//from else
   }
 }
+function delelteSaveBtn(){
+  document.querySelector('.btn-save').remove();
+}
 
 //  seach feature
-function findMach(titleToSearch, arr){
-    return  arr.filter( title => {
-      const regex = new RegExp(titleToSearch, 'gi');
-      return title.codeTitle.match(titleToSearch)
-    });
-}
+// function findMach(titleToSearch, arr){
+//     return  arr.filter( title => {
+//       const regex = new RegExp(titleToSearch, 'gi');
+//       return title.codeTitle.match(titleToSearch)
+//     });
+// }
 
-// searchfunction
-function displayMatches(){
-  const matchArray = findMach(this.value, codeSnippets);
-  const html = matchArray.map(title => {
-      const codeInner = document.querySelectorAll('.code-inner');
-      console.log(codeInner)
-  })
-}
-const searchInput = document.querySelector('.search-form');
+// // searchfunction
+// function displayMatches(){
+//   const matchArray = findMach(this.value, codeSnippets);
+//   const html = matchArray.map(title => {
+//       const codeInner = document.querySelectorAll('.code-inner');
+//       console.log(codeInner);
+//       return
+//       `
+//       <li>
+//         <span class="name">Title</span>
+//         <span class="population">${numberWithCommas(place.population)}</span>
+//       </li>
+//       `
+//   })
+// }
+// const searchInput = document.querySelector('.search-form');
 
-searchInput.addEventListener('change', displayMatches)
-searchInput.addEventListener('keyup', displayMatches)
+// searchInput.addEventListener('change', displayMatches)
+// searchInput.addEventListener('keyup', displayMatches)
 
